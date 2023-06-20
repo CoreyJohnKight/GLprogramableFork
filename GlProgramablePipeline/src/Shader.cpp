@@ -79,6 +79,8 @@ namespace Renderer
 
         fclose(p_File);
 
+        std::cout << "Succesfully loaded file: " << filepath << std::endl;
+        
         return source;
     }
 
@@ -106,6 +108,7 @@ namespace Renderer
 
             return 0;
         }
+        std::cout << "Compiled " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader!" << std::endl;
 
         return shaderID;
     }

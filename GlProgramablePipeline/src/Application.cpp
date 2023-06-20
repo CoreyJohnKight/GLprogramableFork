@@ -10,15 +10,19 @@
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include "Renderer.h"
+#include "Application.h"
 #include "Texture.h"
+
+#include "Renderable/Leroy.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 
 static void GLAPIENTRY glMsgCallback(GLenum source,
@@ -45,7 +49,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    window = glfwCreateWindow(1280, 960, "Simple example", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -90,96 +94,20 @@ int main(void)
     //------------------------------------------------------------------
 
     // Init
-    Renderer::Renderer renderer;
-    renderer.Init();
-
-    Renderer::Shader shader("Resources/Shaders/BasicVert.glsl", "Resources/Shaders/BasicFrag.glsl");
-    shader.Bind();
-
-    glm::mat4 projection = glm::ortho(0.0f, 640.0f, 0.0f, 480.0f);
-    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(300, 200, 0));
-    glm::mat4 mvp = projection * view * model;
-    
-    shader.SetUniformMat4f("u_MVP", mvp);
-
-
-    GLfloat triPos[] = {
-         100.0f,   100.0f, 0.0f, 0.0f,
-         200.0f,   100.0f, 1.0f, 0.0f,
-         200.0f,   200.0f, 1.0f, 1.0f,
-         100.0f,   200.0f, 0.0f, 1.0f,
-    };
-
-    GLuint indicies[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
-    
-
-    Renderer::VertexArray va;
-    Renderer::VertexBuffer vb(triPos, 4 * 4 * sizeof(GLfloat));
-
-    Renderer::VertexBufferLayout layout;
-    layout.PushElement<GLfloat>(2, GL_FALSE);
-    layout.PushElement<GLfloat>(2, GL_FALSE);
-    va.AttatchVertexBuffer(vb, layout);
-
-    Renderer::IndexBuffer ib(indicies, 6);
-
-    shader.SetUniform4f("u_Colour", 0.0f, 0.0f, 0.0f, 0.0f);
-
-    Renderer::Texture tex("Resources/Textures/Leroy.png");
-    tex.Bind();
-    shader.SetUniform1i("u_Texture", 0);
-
-    GLfloat r = 0.0f;
-    GLfloat g = 0.0f;
-    GLfloat b = 0.0f;
-    GLfloat a = 0.0f;
-    GLfloat rIncrement = 0.05f;
-    GLfloat gIncrement = 0.05f;
-    GLfloat bIncrement = 0.05f;
-    glm::vec3 tanslation(300, 200, 0);
+    Application::Init();
+   
+  
     while (!glfwWindowShouldClose(window))
     {
-        renderer.Clear();
+        Application::renderer.Clear();
 
-        //ImGui_ImplGlfw_NewFrame();
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        ImGui::Text("Application average %.3f ms/frame (%.1f fps)", 1000 / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::SliderFloat3("Transform", &tanslation.x, 0.0f, 640.0f);
 
-        if (r > 1.0f)
-            rIncrement = -0.004f;
-        else if( r < 0.3f)
-            rIncrement = 0.005f;
-        r += rIncrement;
-
-        if (g > 1.0f)
-            gIncrement = -0.006f;
-        else if (r < 0.3f)
-            gIncrement = 0.006f;
-        g += gIncrement;
-
-        if (b > 1.0f)
-            bIncrement = -0.004f;
-        else if (b < 0.3f)
-            bIncrement = 0.004f;
-        b += bIncrement;
-
-        shader.SetUniform4f("u_Colour", r,g,b, 1.0f);
-
-        model = glm::translate(glm::mat4(1.0f), tanslation);
-        mvp = projection * view * model;
-
-        shader.SetUniformMat4f("u_MVP", mvp);
-
-        renderer.Draw(va, ib, shader);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
+        Application::ImGuiRender();
+        Application::Render();
+        
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -192,6 +120,9 @@ int main(void)
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        //std::cout << glGetError() << std::endl;
+        Application::Think();
     }
 
 
@@ -203,4 +134,48 @@ int main(void)
 
     glfwTerminate();
     exit(EXIT_SUCCESS);
+}
+
+void Application::Init()
+{
+    Application::renderer.Init();
+    Application::projection = glm::ortho(0.0f, 1280.0f, 0.0f, 960.0f);
+    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(1, 1, 0));
+    Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(300, 200, 0));
+
+    Application::mvpMatrix = Application::projection * Application::view * Application::model;
+    
+    renderables.push_back(std::make_unique<Renderable::Leroy>());
+}
+
+
+void Application::Render()
+{
+    //Leroy
+    for (const auto& e : renderables)
+    {
+        e->OnRender();
+    }
+}
+
+void Application::ImGuiRender()
+{
+    for (const auto& e : renderables)
+    {
+        e->OnImGuiRender();
+    }
+}
+
+void Application::Think()
+{
+    for (const auto& e : renderables)
+    {
+        e->OnUpdate();
+    }
+}
+
+void Application::TranslateModel(const glm::vec3& translation)
+{
+    Application::model = glm::translate(glm::mat4(1.0f), translation);
+    Application::mvpMatrix = Application::projection * Application::view * Application::model;
 }
