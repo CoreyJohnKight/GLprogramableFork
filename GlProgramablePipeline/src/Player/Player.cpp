@@ -5,7 +5,7 @@
 namespace Player
 {
 	Player::Player()
-		:m_position(0,0,500)
+		:m_position(0,100,500)
 	{
 	}
 	Player::~Player()

@@ -11,7 +11,7 @@ namespace Renderable
 	class Ground : public Renderer::Renderable
 	{
 	public:
-		Ground();
+		Ground(std::weak_ptr<Renderer::Shader> shader);
 		~Ground() override;
 
 		void OnUpdate() override;
@@ -22,6 +22,7 @@ namespace Renderable
 		std::unique_ptr<Renderer::VertexArray>	m_Vao;
 		std::unique_ptr<Renderer::VertexBuffer>	m_Vbo;
 		std::unique_ptr<Renderer::IndexBuffer>	m_Ibo;
-		std::unique_ptr<Renderer::Shader>		m_Prog;
+		std::shared_ptr<Renderer::Shader>		m_Prog;
+		std::unique_ptr<Renderer::Texture>		m_Tex;
 	};
 }

@@ -69,6 +69,7 @@ namespace Renderable
 	}
 	void Leroy::OnRender()
 	{
+		m_Tex->Bind();
 
 		m_Prog->Bind();
 		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
