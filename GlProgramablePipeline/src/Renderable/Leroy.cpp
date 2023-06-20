@@ -15,10 +15,10 @@ namespace Renderable
 		bIncrement = 0.05f;
 
 		GLfloat triPos[] = {
-			 -1.0f,   -1.0f,  0.0f, 0.0f,
-			  1.0f,   -1.0f,  1.0f, 0.0f,
-			  1.0f,    1.0f,  1.0f, 1.0f,
-			 -1.0f,    1.0f,  0.0f, 1.0f,
+			    0.0f,      0.0f,  0.0f, 0.0f,
+			  200.0f,      0.0f,  1.0f, 0.0f,
+			  200.0f,    200.0f,  1.0f, 1.0f,
+			    0.0f,    200.0f,  0.0f, 1.0f,
 		};
 
 		GLuint indicies[] = {
@@ -29,7 +29,7 @@ namespace Renderable
 		m_Prog = std::make_unique<Renderer::Shader>("Resources/Shaders/BasicVert.glsl", "Resources/Shaders/BasicFrag.glsl");
 		m_Prog->Bind();
 		
-		m_Pos = std::make_unique<glm::vec3>(300, 200, 0);
+		m_Pos = std::make_unique<glm::vec3>(0, 0, 0);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
 		m_Vbo = std::make_unique<Renderer::VertexBuffer>(triPos, 4 * 4 * sizeof(GLfloat));
 		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indicies, 6);
@@ -46,7 +46,6 @@ namespace Renderable
 
 		m_Tex->Bind();
 		m_Prog->SetUniform1i("u_Texture", 0);
-		//m_Prog->SetUniformMat4f("u_MVP", Application::mvpMatrix);
 
 	}
 	Leroy::~Leroy()
@@ -74,14 +73,12 @@ namespace Renderable
 	}
 	void Leroy::OnRender()
 	{
-		//m_Tex->Bind();
-
 		m_Prog->Bind();
 		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
 
-		Application::TranslateModel(*m_Pos);
+		glm::mat4 mat = Application::TranslateModel(*m_Pos);
 
-		//m_Prog->SetUniformMat4f("u_MVP", Application::mvpMatrix);
+		m_Prog->SetUniformMat4f("u_MVP", mat);
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}

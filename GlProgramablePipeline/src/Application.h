@@ -15,5 +15,5 @@ namespace Application
 	static void Render();
 	static void ImGuiRender();
 	static void Think();
-	void TranslateModel(const glm::vec3& translation);
+	glm::mat4  TranslateModel(const glm::vec3& translation);
 }

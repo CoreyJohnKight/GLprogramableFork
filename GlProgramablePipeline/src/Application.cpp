@@ -121,7 +121,6 @@ int main(void)
         glfwSwapBuffers(window);
         glfwPollEvents();
 
-        //std::cout << glGetError() << std::endl;
         Application::Think();
     }
 
@@ -140,8 +139,8 @@ void Application::Init()
 {
     Application::renderer.Init();
     Application::projection = glm::ortho(0.0f, 1280.0f, 0.0f, 960.0f);
-    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(1, 1, 0));
-    Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(300, 200, 0));
+    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+    Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
     
@@ -174,8 +173,10 @@ void Application::Think()
     }
 }
 
-void Application::TranslateModel(const glm::vec3& translation)
+glm::mat4 Application::TranslateModel(const glm::vec3& translation)
 {
     Application::model = glm::translate(glm::mat4(1.0f), translation);
-    Application::mvpMatrix = Application::projection * Application::view * Application::model;
+    //Application::model = glm::mat4(1.0f);
+    //Application::mvpMatrix = Application::projection * Application::view * Application::model;
+    return Application::projection * Application::view * Application::model;
 }
