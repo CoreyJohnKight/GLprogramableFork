@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include "Renderable.h"
 
+#include "GLFW/glfw3.h"
+
 namespace Application
 {
 	static Renderer::Renderer renderer;
@@ -15,5 +17,6 @@ namespace Application
 	static void Render();
 	static void ImGuiRender();
 	static void Think();
-	glm::mat4  TranslateModel(const glm::vec3& translation);
+	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
+	glm::mat4 TranslateModel(const glm::vec3& translation);
 }

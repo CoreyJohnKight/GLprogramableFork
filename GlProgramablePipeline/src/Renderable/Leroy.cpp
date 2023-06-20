@@ -81,7 +81,7 @@ namespace Renderable
 	{
 		ImGui::Begin("Debug");
 		ImGui::Text("Application average %.3f ms/frame (%.1f fps)", 1000 / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::SliderFloat3("Transform", &m_Pos->x, -400.0f, 400.0f);
+		ImGui::SliderFloat3("Transform", &m_Pos->x, -10000.0f, 10000.0f);
 		ImGui::End();
 	}
 }

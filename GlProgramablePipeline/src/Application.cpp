@@ -18,8 +18,10 @@
 #include "Shader.h"
 #include "Application.h"
 #include "Texture.h"
+#include "Input.h"
 
 #include "Renderable/Leroy.h"
+#include "Player/Player.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -36,12 +38,18 @@ static void GLAPIENTRY glMsgCallback(GLenum source,
     std::cout << "GL LOG: type = " << type << ", severity = " << severity << ", message = " << message << std::endl;
 }
 
+std::unique_ptr<Player::Player> player = std::make_unique<Player::Player>();
+
+
 int main(void)
 {
+    // Window (GLFW) Init
+    //------------------------------------------------------------------
     GLFWwindow* window;
 
     if (!glfwInit())
         exit(EXIT_FAILURE);
+
 
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
@@ -59,6 +67,8 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    // OpenGL (GLEW) Init
+    //------------------------------------------------------------------
     std::cout << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLSL:   " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
@@ -70,6 +80,8 @@ int main(void)
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
     }
 
+    // ImGUI Init
+    //------------------------------------------------------------------
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -89,14 +101,20 @@ int main(void)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460");
     io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 38.0f);
+    
+    // Callbacks
     //------------------------------------------------------------------
+    glfwSetFramebufferSizeCallback(window, Application::FramebufferSizeCallback);
     glDebugMessageCallback(glMsgCallback, 0);
+    glfwSetKeyCallback(window, Application::KeyCallback);
+    
+    // Application Init
     //------------------------------------------------------------------
-
-    // Init
     Application::Init();
    
   
+    // Main Loop
+    //------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
         Application::renderer.Clear();
@@ -124,7 +142,8 @@ int main(void)
         Application::Think();
     }
 
-
+    // Shutdown
+    //------------------------------------------------------------------
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -138,8 +157,14 @@ int main(void)
 void Application::Init()
 {
     Application::renderer.Init();
-    Application::projection = glm::ortho(0.0f, 1280.0f, 0.0f, 960.0f);
-    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(640, 480, 0));
+ 
+    Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, -1.0f, 1.0f);
+    
+    glm::vec3 cameraPosition(0.0f, 0.0f, 500.0f);
+    glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
+    glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
+    Application::view = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
+
     Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
@@ -150,7 +175,6 @@ void Application::Init()
 
 void Application::Render()
 {
-    //Leroy
     for (const auto& e : renderables)
     {
         e->OnRender();
@@ -167,6 +191,12 @@ void Application::ImGuiRender()
 
 void Application::Think()
 {
+    player->OnUpdate();
+    glm::vec3 cameraPosition = player->GetPos();
+    glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
+    glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
+    Application::view = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
+
     for (const auto& e : renderables)
     {
         e->OnUpdate();
@@ -176,7 +206,11 @@ void Application::Think()
 glm::mat4 Application::TranslateModel(const glm::vec3& translation)
 {
     Application::model = glm::translate(glm::mat4(1.0f), translation);
-    //Application::model = glm::mat4(1.0f);
-    //Application::mvpMatrix = Application::projection * Application::view * Application::model;
     return Application::projection * Application::view * Application::model;
+}
+
+void Application::FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+    // Set the OpenGL viewport based on the new window size
+    glViewport(0, 0, width, height);
 }
