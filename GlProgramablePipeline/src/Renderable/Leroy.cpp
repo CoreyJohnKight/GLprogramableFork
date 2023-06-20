@@ -15,10 +15,10 @@ namespace Renderable
 		bIncrement = 0.05f;
 
 		GLfloat triPos[] = {
-			    0.0f,      0.0f,  0.0f, 0.0f,
-			  200.0f,      0.0f,  1.0f, 0.0f,
+			 -200.0f,   -200.0f,  0.0f, 0.0f,
+			  200.0f,   -200.0f,  1.0f, 0.0f,
 			  200.0f,    200.0f,  1.0f, 1.0f,
-			    0.0f,    200.0f,  0.0f, 1.0f,
+			 -200.0f,    200.0f,  0.0f, 1.0f,
 		};
 
 		GLuint indicies[] = {
@@ -40,9 +40,6 @@ namespace Renderable
 		layout.PushElement<GLfloat>(2, GL_FALSE);
 		layout.PushElement<GLfloat>(2, GL_FALSE);
 		m_Vao->AttatchVertexBuffer(*m_Vbo, layout);
-
-		m_Prog->SetUniform4f("u_Colour", 1.0f, 1.0f, 1.0f, 1.0f);
-
 
 		m_Tex->Bind();
 		m_Prog->SetUniform1i("u_Texture", 0);
@@ -76,9 +73,7 @@ namespace Renderable
 		m_Prog->Bind();
 		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
 
-		glm::mat4 mat = Application::TranslateModel(*m_Pos);
-
-		m_Prog->SetUniformMat4f("u_MVP", mat);
+		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
@@ -86,7 +81,7 @@ namespace Renderable
 	{
 		ImGui::Begin("Debug");
 		ImGui::Text("Application average %.3f ms/frame (%.1f fps)", 1000 / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::SliderFloat3("Transform", &m_Pos->x, 0.0f, 640.0f);
+		ImGui::SliderFloat3("Transform", &m_Pos->x, -400.0f, 400.0f);
 		ImGui::End();
 	}
 }

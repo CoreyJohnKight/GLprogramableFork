@@ -139,7 +139,7 @@ void Application::Init()
 {
     Application::renderer.Init();
     Application::projection = glm::ortho(0.0f, 1280.0f, 0.0f, 960.0f);
-    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+    Application::view = glm::translate(glm::mat4(1.0f), glm::vec3(640, 480, 0));
     Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
