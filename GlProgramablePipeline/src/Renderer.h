@@ -1,5 +1,8 @@
 #pragma once
 #include <GL/glew.h>
+#include <unordered_map>
+#include <memory>
+
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
@@ -9,12 +12,19 @@
 
 namespace Renderer
 {
+	enum ShaderType
+	{
+		BASIC = 0
+	};
+
 	class Renderer
 	{
-	private:
 	public:
-		void Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shaderProg) const;
-		void Init() const;
+		void Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const;
+		void Init();
 		void Clear() const;
+		std::weak_ptr<Shader> GetShader(ShaderType type);
+	private:
+		std::unordered_map<ShaderType, std::shared_ptr<Shader>> m_Shaders;
 	};
 }

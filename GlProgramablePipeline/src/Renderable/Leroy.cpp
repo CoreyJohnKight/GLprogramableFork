@@ -4,7 +4,8 @@
 
 namespace Renderable
 {
-	Leroy::Leroy()
+	Leroy::Leroy(std::weak_ptr<Renderer::Shader> shader)
+		:m_Prog(shader.lock())
 	{
 		r = 0.0f;
 		g = 0.0f;
@@ -26,15 +27,13 @@ namespace Renderable
 			2, 3, 0
 		};
 
-		m_Prog = std::make_unique<Renderer::Shader>("Resources/Shaders/BasicVert.glsl", "Resources/Shaders/BasicFrag.glsl");
 		m_Prog->Bind();
-		
+
 		m_Pos = std::make_unique<glm::vec3>(0, 0, 0);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
 		m_Vbo = std::make_unique<Renderer::VertexBuffer>(triPos, 4 * 4 * sizeof(GLfloat));
 		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indicies, 6);
 		m_Tex = std::make_unique<Renderer::Texture>("Resources/Textures/Leroy.png");
-
 
 		Renderer::VertexBufferLayout layout;
 		layout.PushElement<GLfloat>(2, GL_FALSE);
@@ -70,6 +69,7 @@ namespace Renderable
 	}
 	void Leroy::OnRender()
 	{
+
 		m_Prog->Bind();
 		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
 

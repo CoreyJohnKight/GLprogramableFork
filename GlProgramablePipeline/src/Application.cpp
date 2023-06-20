@@ -39,6 +39,7 @@ static void GLAPIENTRY glMsgCallback(GLenum source,
 }
 
 std::unique_ptr<Player::Player> player = std::make_unique<Player::Player>();
+inline Renderer::Renderer Application::renderer = Renderer::Renderer();
 
 
 int main(void)
@@ -156,7 +157,8 @@ int main(void)
 
 void Application::Init()
 {
-    Application::renderer.Init();
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    renderer.Init();
  
     Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, -1.0f, 1.0f);
     
@@ -169,7 +171,7 @@ void Application::Init()
 
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
     
-    renderables.push_back(std::make_unique<Renderable::Leroy>());
+    renderables.push_back(std::make_unique<Renderable::Leroy>(renderer.GetShader(Renderer::ShaderType::BASIC)));
 }
 
 

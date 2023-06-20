@@ -6,7 +6,7 @@
 
 namespace Application
 {
-	static Renderer::Renderer renderer;
+	extern Renderer::Renderer renderer;
 	static std::vector <std::unique_ptr<Renderer::Renderable>> renderables;
 	static glm::mat4 projection;
 	static glm::mat4 view;

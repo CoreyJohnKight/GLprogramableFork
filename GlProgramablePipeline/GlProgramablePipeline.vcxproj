@@ -304,6 +304,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Player\Player.h" />
     <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\Renderable\Ground.h" />
     <ClInclude Include="src\Renderable\Leroy.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 #include "../Renderable.h"
 #include "glm/glm.hpp"
@@ -7,11 +8,11 @@
 
 namespace Renderable
 {
-	class Leroy : public Renderer::Renderable
+	class Ground : public Renderer::Renderable
 	{
 	public:
-		Leroy(std::weak_ptr<Renderer::Shader> shader);
-		~Leroy() override;
+		Ground();
+		~Ground() override;
 
 		void OnUpdate() override;
 		void OnRender() override;
@@ -21,15 +22,6 @@ namespace Renderable
 		std::unique_ptr<Renderer::VertexArray>	m_Vao;
 		std::unique_ptr<Renderer::VertexBuffer>	m_Vbo;
 		std::unique_ptr<Renderer::IndexBuffer>	m_Ibo;
-		std::shared_ptr<Renderer::Shader>			m_Prog;
-		std::unique_ptr<Renderer::Texture>		m_Tex;
-
-		GLfloat r;
-		GLfloat g;
-		GLfloat b;
-		GLfloat a;
-		GLfloat rIncrement;
-		GLfloat gIncrement;
-		GLfloat bIncrement;
+		std::unique_ptr<Renderer::Shader>		m_Prog;
 	};
 }
