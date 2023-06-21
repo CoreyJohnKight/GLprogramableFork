@@ -40,8 +40,8 @@ namespace Renderable
 		layout.PushElement<GLfloat>(2, GL_FALSE);
 		m_Vao->AttatchVertexBuffer(*m_Vbo, layout);
 
-		m_Tex->Bind();
-		m_Prog->SetUniform1i("u_Texture", 0);
+		m_Tex->Bind(0);
+		m_Prog->SetUniform1i("u_Texture", 1);
 
 	}
 	Leroy::~Leroy()
@@ -69,13 +69,15 @@ namespace Renderable
 	}
 	void Leroy::OnRender()
 	{
-		m_Tex->Bind();
-
 		m_Prog->Bind();
-		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
+		m_Tex->Bind(0);
 
+
+		m_Prog->SetUniform4f("u_Colour", r, g, b, 1.0f);
+		m_Prog->SetUniform1i("u_Texture", 0);
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
 
+		glActiveTexture(GL_TEXTURE0);
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
 	void Leroy::OnImGuiRender()

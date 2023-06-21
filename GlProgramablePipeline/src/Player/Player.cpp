@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "Input.h"
-#include <iostream>
 
 namespace Player
 {
@@ -14,7 +13,6 @@ namespace Player
 	void Player::OnUpdate()
 	{
 		float speed = 5.0f;
-		//std::cout << Application::keys.forward << std::endl;
 		if (Application::keys.forward == Application::KeystateEnum::DOWN)
 		{
 			m_position.z -= speed;
@@ -25,11 +23,11 @@ namespace Player
 		}
 		if (Application::keys.left == Application::KeystateEnum::DOWN)
 		{
-			m_position.x += speed;
+			m_position.x -= speed;
 		}
 		if (Application::keys.right == Application::KeystateEnum::DOWN)
 		{
-			m_position.x -= speed;
+			m_position.x += speed;
 		}
 	}
 

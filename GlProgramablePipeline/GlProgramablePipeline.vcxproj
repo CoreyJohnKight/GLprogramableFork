@@ -159,6 +159,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\BasicFrag.glsl" />
     <None Include="Resources\Shaders\BasicVert.glsl" />
+    <None Include="Resources\Shaders\GroundFrag.glsl" />
+    <None Include="Resources\Shaders\GroundVert.glsl" />
     <None Include="src\Vender\glm\detail\func_common.inl" />
     <None Include="src\Vender\glm\detail\func_common_simd.inl" />
     <None Include="src\Vender\glm\detail\func_exponential.inl" />
@@ -612,6 +614,7 @@
     <ClInclude Include="src\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\Textures\Bricks_White.png" />
     <Image Include="Resources\Textures\Leroy.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

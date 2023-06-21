@@ -496,6 +496,8 @@
     <None Include="src\Vender\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Resources\Shaders\GroundVert.glsl" />
+    <None Include="Resources\Shaders\GroundFrag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1431,6 +1433,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Textures\Leroy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Textures\Bricks_White.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

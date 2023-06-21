@@ -17,8 +17,11 @@ namespace Renderer
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
+		//TODO: just store program id?
 		// Shaders
 		m_Shaders[BASIC] = std::make_shared<Shader>("Resources/Shaders/BasicVert.glsl", "Resources/Shaders/BasicFrag.glsl");
+		
+		m_Shaders[GROUND] = std::make_shared<Shader>("Resources/Shaders/GroundVert.glsl", "Resources/Shaders/GroundFrag.glsl");
 	
 		// Vao's
 

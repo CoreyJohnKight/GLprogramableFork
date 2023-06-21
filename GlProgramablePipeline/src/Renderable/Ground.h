@@ -24,5 +24,6 @@ namespace Renderable
 		std::unique_ptr<Renderer::IndexBuffer>	m_Ibo;
 		std::shared_ptr<Renderer::Shader>		m_Prog;
 		std::unique_ptr<Renderer::Texture>		m_Tex;
+		std::unique_ptr<Renderer::Texture>		m_Rou;
 	};
 }

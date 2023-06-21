@@ -1,6 +1,7 @@
 
 #include "Texture.h"
 #include "Stb_Image/stbImage.h"
+#include <iostream>
 
 #define RGBA 4
 
@@ -13,6 +14,12 @@ namespace Renderer
 	{
 		stbi_set_flip_vertically_on_load(1);
 		m_localBuffer = stbi_load(filePath.c_str(), &m_Width, &m_Height, &m_BitsPerPixel, RGBA);
+		if (m_localBuffer == NULL)
+		{
+			std::cout << "Failed to load texture: " << filePath << std::endl;
+			return;
+		}
+		std::cout << "Successfully loaded texture: " << filePath << std::endl;
 
 		glGenTextures(1, &m_TexID);
 		glBindTexture(GL_TEXTURE_2D, m_TexID);
@@ -37,8 +44,8 @@ namespace Renderer
 
 	void Texture::Bind(GLuint slot) const
 	{
-		glBindTexture(GL_TEXTURE_2D, m_TexID);
 		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTexture(GL_TEXTURE_2D, m_TexID);
 	}
 
 	void Texture::UnBind() const

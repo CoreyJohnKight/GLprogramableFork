@@ -1,5 +1,6 @@
 #include "Ground.h"
 #include "Application.h"
+#include <iostream>
 namespace Renderable
 {
 	Ground::Ground(std::weak_ptr<Renderer::Shader> shader)
@@ -17,8 +18,8 @@ namespace Renderable
 			2, 3, 0
 		};
 
-		m_Prog->Bind();
 
+		m_Prog->Bind();
 		m_Pos = std::make_unique<glm::vec3>(0, 0, 0);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
 		m_Vbo = std::make_unique<Renderer::VertexBuffer>(triPos, 5 * 4 * sizeof(GLfloat));
@@ -30,9 +31,9 @@ namespace Renderable
 		layout.PushElement<GLfloat>(2, GL_FALSE);
 		m_Vao->AttatchVertexBuffer(*m_Vbo, layout);
 
-		m_Tex->Bind();
-		m_Prog->SetUniform1i("u_Texture", 0);
-		m_Prog->SetUniform4f("u_Colour", 1.0f, 1.0f, 1.0f, 1.0f);
+		//m_Prog->SetUniform1i("u_Texture", 0);
+		m_Tex->Bind(0);
+		m_Prog->SetUniform4f("u_Colour", 0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
 	Ground::~Ground()
@@ -45,9 +46,12 @@ namespace Renderable
 
 	void Ground::OnRender()
 	{
-		m_Tex->Bind();
 		m_Prog->Bind();
+		m_Tex->Bind(0);
+		m_Prog->SetUniform1i("u_Texture", 0);
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
+
+		glActiveTexture(GL_TEXTURE1);
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
