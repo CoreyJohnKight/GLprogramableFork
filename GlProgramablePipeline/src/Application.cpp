@@ -109,6 +109,7 @@ int main(void)
     glfwSetFramebufferSizeCallback(window, Application::FramebufferSizeCallback);
     glDebugMessageCallback(glMsgCallback, 0);
     glfwSetKeyCallback(window, Application::KeyCallback);
+    glfwSetCursorPosCallback(window, Application::MouseMovementCallback);
     
     // Application Init
     //------------------------------------------------------------------
@@ -161,7 +162,7 @@ void Application::Init()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     renderer.Init();
  
-    Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, -1.0f, 1.0f);
+    Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, 1.0f, -1.0f);
     
     glm::vec3 cameraPosition(0.0f, 0.0f, 500.0f);
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);

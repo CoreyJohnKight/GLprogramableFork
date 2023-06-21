@@ -10,7 +10,7 @@ namespace Application
         .right = UP
     };
 
-	void Application::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
         switch (action)
         {
@@ -50,4 +50,8 @@ namespace Application
             break;
         }
 	}
+    void MouseMovementCallback(GLFWwindow* window, double xpos, double ypos)
+    {
+        //TODO
+    }
 }

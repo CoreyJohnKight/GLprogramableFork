@@ -16,6 +16,11 @@ namespace Renderer
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
+		// Enable depth testing
+		glEnable(GL_DEPTH_TEST);
+
+		// Set the depth function
+		//glDepthFunc(GL_LESS);
 
 		//TODO: just store program id?
 		// Shaders
@@ -29,7 +34,7 @@ namespace Renderer
 
 	void Renderer::Clear() const
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	std::weak_ptr<Shader> Renderer::GetShader(ShaderType type)

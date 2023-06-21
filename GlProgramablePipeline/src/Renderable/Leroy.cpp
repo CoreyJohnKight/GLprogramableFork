@@ -77,7 +77,6 @@ namespace Renderable
 		m_Prog->SetUniform1i("u_Texture", 0);
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
 
-		glActiveTexture(GL_TEXTURE0);
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
 	void Leroy::OnImGuiRender()

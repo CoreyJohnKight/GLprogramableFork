@@ -28,5 +28,7 @@ namespace Application
 	extern KeyState keys;
 
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void MouseMovementCallback(GLFWwindow* window, double xpos, double ypos);
+
 
 }
