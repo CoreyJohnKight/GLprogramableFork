@@ -5,7 +5,6 @@ namespace Terrain
 	ChunkManager::ChunkManager(int x, int y)
 	{
 		m_ChunkTree = std::make_unique<ChunkTree>(x,y);
-		m_ChunkTree->AddChunk(x, y);
 	}
 
 }

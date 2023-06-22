@@ -5,9 +5,31 @@
 #include <iostream>
 namespace Terrain
 {
-    std::unique_ptr<Chunk> LoadTerrainFile(int x, int y)
+    std::unique_ptr<std::vector<std::vector<int>>> LoadTerrainFile(int x, int y)
     {
-        return nullptr;
+        FILE* pFile;
+        std::string filePath = "Resources/Map/CHUNK_" + std::to_string(x) + "_" + std::to_string(y) + ".ljcnk";
+        std::unique_ptr<std::vector<std::vector<int>>> data = nullptr;
+        fopen_s(&pFile, filePath.c_str(), "r");
+
+        if (pFile != nullptr)
+        {
+            std::unique_ptr<std::vector<std::vector<int>>> data = std::make_unique<std::vector<std::vector<int>>>(CHUNK_SIZE, std::vector<int>(CHUNK_SIZE));
+
+            int value = 0;
+            for (int y = 0; y < CHUNK_SIZE; y++)
+            {
+                for (int x = 0; x < CHUNK_SIZE; x++)
+                {
+                    fscanf_s(pFile, "%d", &value);
+                    (*data)[y][x] = value;
+                }
+            }
+
+            fclose(pFile);
+        }
+
+        return data;
     }
 
     void WriteTerrainFile(int x, int y, const std::vector<std::vector<int>>& data)

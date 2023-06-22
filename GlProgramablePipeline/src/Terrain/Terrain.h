@@ -4,5 +4,5 @@
 
 namespace Terrain
 {
-	std::unique_ptr<Chunk> GenerateTerrain(int x, int y);
+	std::unique_ptr<std::vector<std::vector<int>>> GenerateTerrain(int x, int y);
 }

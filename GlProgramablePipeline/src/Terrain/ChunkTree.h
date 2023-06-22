@@ -1,4 +1,7 @@
 #pragma once
+#include <memory>
+
+#include "Chunk.h"
 
 namespace Terrain
 {
@@ -10,5 +13,6 @@ namespace Terrain
 	private:
 		int m_HeadX;
 		int m_HeadY;
+		std::unique_ptr<Chunk> m_Head;
 	};
 }
