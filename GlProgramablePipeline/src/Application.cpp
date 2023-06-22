@@ -25,7 +25,8 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include <Renderable/Ground.h>
+#include "Renderable/Ground.h"
+#include "Terrain/ChunkManager.h"
 
 
 static void GLAPIENTRY glMsgCallback(GLenum source,
@@ -41,7 +42,7 @@ static void GLAPIENTRY glMsgCallback(GLenum source,
 
 std::unique_ptr<Player::Player> player = std::make_unique<Player::Player>();
 inline Renderer::Renderer Application::renderer = Renderer::Renderer();
-
+std::unique_ptr<Terrain::ChunkManager> chunker = std::make_unique<Terrain::ChunkManager>(0,0);
 
 int main(void)
 {

@@ -52,21 +52,17 @@ namespace Application
     {
         if (firstMouse)
         {
-            // Store the initial mouse position
             previousX = xpos;
             previousY = ypos;
             firstMouse = false;
         }
 
-        // Calculate the offset between the current and previous mouse position
         xOffset = xpos - previousX;
         yOffset = previousY - ypos; 
 
-        // Update the previous mouse position
         previousX = xpos;
         previousY = ypos;
 
-        // Apply sensitivity factor to the offset for desired rotation speed
         xOffset *= sensitivity;
         yOffset *= sensitivity;
 

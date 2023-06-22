@@ -7,6 +7,8 @@
 #define KEY_LEFT	'A'
 #define KEY_RIGHT	'D'
 
+#pragma once
+
 namespace Application
 {
 	enum KeystateEnum
