@@ -87,6 +87,9 @@
     <ClCompile Include="src\Terrain\Terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Terrain\Chunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\BasicVert.glsl" />
@@ -1458,6 +1461,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Terrain\ChunkTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Terrain\TerrainDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Prng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

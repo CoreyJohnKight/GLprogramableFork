@@ -162,6 +162,8 @@ int main(void)
 
 void Application::Init()
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     renderer.Init();
  
