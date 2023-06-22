@@ -25,10 +25,17 @@ namespace Application
 		KeystateEnum right;
 	};
 
-	extern KeyState keys;
+	inline double xOffset = 0.0;
+	inline double yOffset = 0.0;
+
+	inline KeyState keys =
+	{
+		.forward = UP,
+		.back = UP,
+		.left = UP,
+		.right = UP
+	};
 
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void MouseMovementCallback(GLFWwindow* window, double xpos, double ypos);
-
-
 }

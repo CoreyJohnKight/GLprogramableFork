@@ -7,7 +7,7 @@ namespace Renderable
         : m_Prog(shader.lock())
     {
         const int gridSize = 100;  // Number of grid cells in each dimension
-        const float cellSize = 120.0f;  // Size of each grid cell
+        const float cellSize = 100.0f;  // Size of each grid cell
         const int numVertices = (gridSize + 1) * (gridSize + 1);
         const int numTriangles = gridSize * gridSize * 2;
         const int numIndices = numTriangles * 3;

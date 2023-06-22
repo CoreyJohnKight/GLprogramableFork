@@ -69,6 +69,8 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     // OpenGL (GLEW) Init
     //------------------------------------------------------------------
     std::cout << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
@@ -200,6 +202,21 @@ void Application::Think()
     glm::vec3 cameraPosition = player->GetPos();
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
     glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
+
+    // Apply rotation to camera position and target
+    glm::vec3 rot = player->GetRot();
+    float yaw = glm::radians(rot.y);
+    float pitch = glm::radians(rot.x);
+    glm::vec3 cameraDirection(
+        cos(yaw) * cos(pitch),
+        sin(pitch),
+        sin(yaw) * cos(pitch)
+    );
+    cameraDirection = glm::normalize(cameraDirection);
+
+    cameraTarget = cameraPosition + cameraDirection;
+
+    // Update view matrix based on camera position and target
     Application::view = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
 
     for (const auto& e : renderables)
