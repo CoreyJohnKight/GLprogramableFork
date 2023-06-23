@@ -9,7 +9,7 @@ namespace Terrain
 	{
 	public:
 		ChunkManager(int x, int y);
-	private:
 		std::unique_ptr<ChunkTree> m_ChunkTree;
+	private:
 	};
 }

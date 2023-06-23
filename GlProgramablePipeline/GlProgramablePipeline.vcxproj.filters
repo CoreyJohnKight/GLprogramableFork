@@ -513,6 +513,8 @@
     </None>
     <None Include="Resources\Shaders\GroundVert.glsl" />
     <None Include="Resources\Shaders\GroundFrag.glsl" />
+    <None Include="Resources\Shaders\BasicNoTextureVert.glsl" />
+    <None Include="Resources\Shaders\BasicNoTextureFrag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1452,9 +1454,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Terrain\ChunkManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderable\ChunkMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Terrain\Chunk.h">

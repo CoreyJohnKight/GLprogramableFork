@@ -27,9 +27,9 @@ namespace Terrain
             }
 
             fclose(pFile);
+            return data;
         }
-
-        return data;
+        return nullptr;
     }
 
     void WriteTerrainFile(int x, int y, const std::vector<std::vector<int>>& data)

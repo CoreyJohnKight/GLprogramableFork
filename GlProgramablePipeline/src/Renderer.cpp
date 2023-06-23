@@ -16,17 +16,18 @@ namespace Renderer
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
-		// Set the depth function
-		//glDepthFunc(GL_LESS);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 
 		//TODO: just store program id?
 		// Shaders
 		m_Shaders[BASIC] = std::make_shared<Shader>("Resources/Shaders/BasicVert.glsl", "Resources/Shaders/BasicFrag.glsl");
 		
 		m_Shaders[GROUND] = std::make_shared<Shader>("Resources/Shaders/GroundVert.glsl", "Resources/Shaders/GroundFrag.glsl");
+		m_Shaders[BASIC_NO_TEXTURE] = std::make_shared<Shader>("Resources/Shaders/BasicNoTextureVert.glsl", "Resources/Shaders/BasicNoTextureFrag.glsl");
 	
 		// Vao's
 

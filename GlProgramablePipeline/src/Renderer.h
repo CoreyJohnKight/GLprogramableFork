@@ -15,7 +15,8 @@ namespace Renderer
 	enum ShaderType
 	{
 		BASIC = 0,
-		GROUND
+		GROUND,
+		BASIC_NO_TEXTURE,
 	};
 
 	enum VaoType

@@ -9,7 +9,9 @@ namespace Terrain
 	{
 	public:
 		ChunkTree(int x, int y);
+		void Init();
 		void AddChunk(int x, int y);
+		void Render();
 	private:
 		int m_HeadX;
 		int m_HeadY;

@@ -167,6 +167,7 @@ void Application::Init()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     renderer.Init();
  
+    chunker->m_ChunkTree->Init();
     Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, 1.0f, -1.0f);
     
     glm::vec3 cameraPosition(0.0f, 0.0f, 500.0f);
@@ -179,7 +180,7 @@ void Application::Init()
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
     
     renderables.push_back(std::make_unique<Renderable::Leroy>(renderer.GetShader(Renderer::ShaderType::BASIC)));
-    renderables.push_back(std::make_unique<Renderable::Ground>(renderer.GetShader(Renderer::ShaderType::GROUND)));
+    //renderables.push_back(std::make_unique<Renderable::Ground>(renderer.GetShader(Renderer::ShaderType::GROUND)));
 }
 
 
@@ -189,6 +190,7 @@ void Application::Render()
     {
         e->OnRender();
     }
+    chunker->m_ChunkTree->Render();
 }
 
 void Application::ImGuiRender()
