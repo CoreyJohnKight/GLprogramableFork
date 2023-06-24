@@ -12,12 +12,14 @@ namespace Terrain
 	void Chunk::SetData(std::unique_ptr<std::vector<std::vector<int>>> chunkData)
 	{
 		m_ChunkData = std::move(chunkData);
+		if (m_ChunkData == nullptr)
+			return;
 
-		float step = CHUNK_SIZE * 100;
+		float step = CHUNK_SIZE * 1;
 		GLfloat verticies[CHUNK_SIZE * (CHUNK_SIZE * 3)];
 		int numVertices = CHUNK_SIZE * (CHUNK_SIZE * 3);
-		int numIndices = ((CHUNK_SIZE * CHUNK_SIZE) - 1) * 3;
-		GLuint indices[((CHUNK_SIZE * CHUNK_SIZE) - 1) * 3];
+		int numIndices = (CHUNK_SIZE - 1 * CHUNK_SIZE - 1) * 6;
+		std::vector<GLuint> indices;
 		int idx = 0;
 
 		for (int y = 0; y < CHUNK_SIZE; y++)
@@ -26,7 +28,7 @@ namespace Terrain
 			for (int x = 0; x < CHUNK_SIZE; x++)
 			{
 				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset++)] = x * step;
-				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset++)] = (*m_ChunkData)[y][x] * step;
+				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset++)] = (*m_ChunkData)[y][x] * 15;
 				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset)] = y * step;
 			}
 		}
@@ -42,14 +44,14 @@ namespace Terrain
 				int bottomRight = bottomLeft + 1;
 
 				// Triangle 1
-				indices[idx++] = topLeft;
-				indices[idx++] = bottomLeft;
-				indices[idx++] = topRight;
+				indices.push_back(topLeft);
+				indices.push_back(bottomLeft);
+				indices.push_back(topRight);
 
 				// Triangle 2
-				indices[idx++] = topRight;
-				indices[idx++] = bottomLeft;
-				indices[idx++] = bottomRight;
+				indices.push_back(topRight);
+				indices.push_back(bottomLeft);
+				indices.push_back(bottomRight);
 			}
 		}
 
@@ -58,7 +60,7 @@ namespace Terrain
 		m_Pos = std::make_unique<glm::vec3>(0, 0, 0);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
 		m_Vbo = std::make_unique<Renderer::VertexBuffer>(verticies, numVertices * sizeof(GLfloat));
-		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indices, numIndices);
+		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indices.data(), indices.size());
 
 		Renderer::VertexBufferLayout layout;
 		layout.PushElement<GLfloat>(3, GL_FALSE);
