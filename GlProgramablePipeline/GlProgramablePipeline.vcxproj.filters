@@ -90,6 +90,9 @@
     <ClCompile Include="src\Terrain\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderable\LightMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\BasicVert.glsl" />
@@ -1466,6 +1469,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Prng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderable\LightMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

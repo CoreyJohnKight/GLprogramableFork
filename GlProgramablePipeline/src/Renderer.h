@@ -33,6 +33,7 @@ namespace Renderer
 		void Clear() const;
 		std::weak_ptr<Shader> GetShader(ShaderType type);
 		std::weak_ptr<VertexArray> GetVao(VaoType type);
+		glm::vec4 MainLightCol;
 	private:
 		std::unordered_map<ShaderType, std::shared_ptr<Shader>> m_Shaders;
 		std::unordered_map<VaoType, std::shared_ptr<VertexArray>> m_VAOs;

@@ -24,6 +24,7 @@ namespace Renderer
 
 		void SetUniform1i(const std::string& name, GLint value);
 		void SetUniform4f(const std::string& name, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+		void SetUniform4fv(const std::string& name, glm::vec4 vec);
 		void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 	
 	private:

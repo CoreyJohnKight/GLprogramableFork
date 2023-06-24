@@ -38,6 +38,11 @@ namespace Renderer
         glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
     }
 
+    void Shader::SetUniform4fv(const std::string& name, glm::vec4 vec)
+    {
+        glUniform4f(GetUniformLocation(name), vec[0], vec[1], vec[2], vec[3]);
+    }
+
     void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
     {
         glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);

@@ -31,6 +31,8 @@ namespace Renderer
 	
 		// Vao's
 
+
+		MainLightCol = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	void Renderer::Clear() const

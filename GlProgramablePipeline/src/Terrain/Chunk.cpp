@@ -74,6 +74,8 @@ namespace Terrain
 	{
 		m_Prog->Bind();
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
+		m_Prog->SetUniform4fv("u_LightCol", Application::renderer.MainLightCol);
+
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}

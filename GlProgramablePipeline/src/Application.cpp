@@ -27,6 +27,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Renderable/Ground.h"
 #include "Terrain/ChunkManager.h"
+#include <Renderable/LightMain.h>
 
 
 static void GLAPIENTRY glMsgCallback(GLenum source,
@@ -180,6 +181,7 @@ void Application::Init()
     Application::mvpMatrix = Application::projection * Application::view * Application::model;
     
     renderables.push_back(std::make_unique<Renderable::Leroy>(renderer.GetShader(Renderer::ShaderType::BASIC)));
+    renderables.push_back(std::make_unique<Renderable::LightMain>(renderer.GetShader(Renderer::ShaderType::BASIC)));
     //renderables.push_back(std::make_unique<Renderable::Ground>(renderer.GetShader(Renderer::ShaderType::GROUND)));
 }
 

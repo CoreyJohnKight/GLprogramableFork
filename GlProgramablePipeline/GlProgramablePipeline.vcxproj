@@ -141,6 +141,7 @@
     <ClCompile Include="src\Player\Player.cpp" />
     <ClCompile Include="src\Renderable\Ground.cpp" />
     <ClCompile Include="src\Renderable\Leroy.cpp" />
+    <ClCompile Include="src\Renderable\LightMain.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Terrain\Chunk.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Renderable\Ground.h" />
     <ClInclude Include="src\Renderable\Leroy.h" />
+    <ClInclude Include="src\Renderable\LightMain.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Terrain\Chunk.h" />
