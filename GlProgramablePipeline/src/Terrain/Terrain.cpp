@@ -2,6 +2,7 @@
 #include "TerrainDef.h"
 #include "TerrainIO.h"
 #include "Prng.h"
+#include <glm/gtc/noise.hpp>
 namespace Terrain
 {
 	std::unique_ptr<std::vector<std::vector<int>>> GenerateTerrain(int x, int y)
@@ -12,12 +13,14 @@ namespace Terrain
 		{
 			for (int x = 0; x < CHUNK_SIZE; x++)
 			{
-				if(y >= 20)
-					(*chunkData)[y][x] = Prng::randomInt(0, 0);
-				else if(y >= 10)
-					(*chunkData)[y][x] = Prng::randomInt(4,5);
-				else
-					(*chunkData)[y][x] = Prng::randomInt(7, 8);
+				(*chunkData)[y][x] = glm::perlin(glm::vec3(x / 10.f, y / 10.f, 100.f)) * 10;
+
+				//if(y >= 20)
+				//	(*chunkData)[y][x] = Prng::randomInt(0, 0);
+				//else if(y >= 10)
+				//	(*chunkData)[y][x] = Prng::randomInt(4,5);
+				//else
+				//	(*chunkData)[y][x] = Prng::randomInt(7, 8);
 			}
 		}
 
