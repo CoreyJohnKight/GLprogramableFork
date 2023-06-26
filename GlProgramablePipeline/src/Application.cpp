@@ -45,11 +45,13 @@ std::unique_ptr<Player::Player> player = std::make_unique<Player::Player>();
 inline Renderer::Renderer Application::renderer = Renderer::Renderer();
 std::unique_ptr<Terrain::ChunkManager> chunker = std::make_unique<Terrain::ChunkManager>(0,0);
 
+static GLFWwindow* window;
+inline bool Application::cursorLock = true;
+
 int main(void)
 {
     // Window (GLFW) Init
     //------------------------------------------------------------------
-    GLFWwindow* window;
 
     if (!glfwInit())
         exit(EXIT_FAILURE);
@@ -197,6 +199,10 @@ void Application::Render()
 
 void Application::ImGuiRender()
 {
+    //TODO: TEMP
+    ImGui::Begin("Debug");
+    ImGui::SliderFloat3("LightPos", &(renderer.MainLightPos[0]), -10000.0f, 10000.0f);
+    ImGui::End();
     for (const auto& e : renderables)
     {
         e->OnImGuiRender();
@@ -205,6 +211,16 @@ void Application::ImGuiRender()
 
 void Application::Think()
 {
+    if (keys.escape == ACTION_PENDING)
+    {
+        cursorLock = !cursorLock;
+
+        if(cursorLock)
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        else
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        keys.escape = UP;
+    }
     player->OnUpdate();
     glm::vec3 cameraPosition = player->GetPos();
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);

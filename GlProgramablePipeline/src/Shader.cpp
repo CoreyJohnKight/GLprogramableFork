@@ -33,6 +33,11 @@ namespace Renderer
         glUniform1i(GetUniformLocation(name), value);
     }
 
+    void Shader::SetUniform3fv(const std::string& name, glm::vec3 vec)
+    {
+        glUniform3f(GetUniformLocation(name), vec[0], vec[1], vec[2]);
+    }
+
     void Shader::SetUniform4f(const std::string& name, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
     {
         glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);

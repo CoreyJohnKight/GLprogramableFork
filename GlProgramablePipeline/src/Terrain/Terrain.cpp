@@ -12,12 +12,12 @@ namespace Terrain
 		{
 			for (int x = 0; x < CHUNK_SIZE; x++)
 			{
-				if(y >= 6)
-					(*chunkData)[y][x] = Prng::randomInt(0, 1);
-				else if(y >= 4)
-					(*chunkData)[y][x] = Prng::randomInt(0,2);
+				if(y >= 20)
+					(*chunkData)[y][x] = Prng::randomInt(0, 0);
+				else if(y >= 10)
+					(*chunkData)[y][x] = Prng::randomInt(4,5);
 				else
-					(*chunkData)[y][x] = Prng::randomInt(1, 3);
+					(*chunkData)[y][x] = Prng::randomInt(7, 8);
 			}
 		}
 

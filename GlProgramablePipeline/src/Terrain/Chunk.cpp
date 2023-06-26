@@ -1,5 +1,6 @@
 #include "Chunk.h"
 #include "Application.h"
+#include <ImGui/imgui.h>
 namespace Terrain
 {
 	Chunk::Chunk(std::weak_ptr<Renderer::Shader> shader, int x, int y)
@@ -15,21 +16,36 @@ namespace Terrain
 		if (m_ChunkData == nullptr)
 			return;
 
-		float step = CHUNK_SIZE * 1;
-		GLfloat verticies[CHUNK_SIZE * (CHUNK_SIZE * 3)];
-		int numVertices = CHUNK_SIZE * (CHUNK_SIZE * 3);
-		int numIndices = (CHUNK_SIZE - 1 * CHUNK_SIZE - 1) * 6;
+		float step = 100;
+		std::vector<GLfloat> verticies;
 		std::vector<GLuint> indices;
 		int idx = 0;
 
 		for (int y = 0; y < CHUNK_SIZE; y++)
 		{
-			int xOffset = 0;
 			for (int x = 0; x < CHUNK_SIZE; x++)
 			{
-				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset++)] = x * step;
-				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset++)] = (*m_ChunkData)[y][x] * 15;
-				verticies[(y * (CHUNK_SIZE * 3)) + x + (xOffset)] = y * step;
+				// Calculate vertex pos
+				glm::vec3 vertexPosition(x * step, (*m_ChunkData)[y][x] * 15, y * step);
+				verticies.push_back(vertexPosition.x);
+				verticies.push_back(vertexPosition.y);
+				verticies.push_back(vertexPosition.z);
+
+				float heightLeft = x > 0 ? (*m_ChunkData)[y][x - 1] : (*m_ChunkData)[y][x];
+				float heightRight = x < CHUNK_SIZE - 1 ? (*m_ChunkData)[y][x + 1] : (*m_ChunkData)[y][x];
+				float heightUp = y > 0 ? (*m_ChunkData)[y - 1][x] : (*m_ChunkData)[y][x];
+				float heightDown = y < CHUNK_SIZE - 1 ? (*m_ChunkData)[y + 1][x] : (*m_ChunkData)[y][x];
+
+				// Construct normal vector
+				glm::vec3 normal(heightLeft - heightRight, 2.0f, heightDown - heightUp);
+
+				// Calculate the average normal
+				normal = glm::normalize(normal);
+
+				// Store the normal in the vertices vector
+				verticies.push_back(normal.x);
+				verticies.push_back(normal.y);
+				verticies.push_back(normal.z);
 			}
 		}
 
@@ -57,12 +73,13 @@ namespace Terrain
 
 		m_Prog->Bind();
 
-		m_Pos = std::make_unique<glm::vec3>(0, 0, 0);
+		m_Pos = std::make_unique<glm::vec3>(0, -100, 0);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
-		m_Vbo = std::make_unique<Renderer::VertexBuffer>(verticies, numVertices * sizeof(GLfloat));
+		m_Vbo = std::make_unique<Renderer::VertexBuffer>(verticies.data(), verticies.size() * sizeof(GLfloat));
 		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indices.data(), indices.size());
 
 		Renderer::VertexBufferLayout layout;
+		layout.PushElement<GLfloat>(3, GL_FALSE);
 		layout.PushElement<GLfloat>(3, GL_FALSE);
 		m_Vao->AttatchVertexBuffer(*m_Vbo, layout);
 
@@ -74,7 +91,9 @@ namespace Terrain
 	{
 		m_Prog->Bind();
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
+		m_Prog->SetUniformMat4f("u_Model", glm::translate(glm::mat4(1.0f), *m_Pos));
 		m_Prog->SetUniform4fv("u_LightCol", Application::renderer.MainLightCol);
+		m_Prog->SetUniform3fv("u_LightPos", Application::renderer.MainLightPos);
 
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);

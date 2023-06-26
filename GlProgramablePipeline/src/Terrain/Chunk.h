@@ -14,6 +14,7 @@ namespace Terrain
 		void SetData(std::unique_ptr<std::vector<std::vector<int>>> chunkData);
 		std::unique_ptr<std::vector<std::vector<int>>> m_ChunkData;
 		void OnRender() override;
+
 	private:
 		std::unique_ptr<glm::vec3>				m_Pos;
 		std::unique_ptr<Renderer::VertexArray>	m_Vao;

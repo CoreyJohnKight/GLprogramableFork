@@ -15,6 +15,9 @@ namespace Application
         case GLFW_PRESS:
             switch (key)
             {
+            case KEY_ESCAPE:
+                keys.escape = ACTION_PENDING;
+                break;
             case KEY_FORWARD:
                 keys.forward = DOWN;
                 break;

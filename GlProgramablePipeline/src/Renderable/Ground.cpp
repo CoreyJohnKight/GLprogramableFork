@@ -90,6 +90,7 @@ namespace Renderable
 		m_Prog->SetUniform1i("u_Texture", 0);
 		m_Prog->SetUniformMat4f("u_MVP", Application::TranslateModel(*m_Pos));
         m_Prog->SetUniform4fv("u_LightCol", Application::renderer.MainLightCol);
+        m_Prog->SetUniform3fv("u_LightPos", Application::renderer.MainLightPos);
 
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);

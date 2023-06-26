@@ -18,9 +18,10 @@ namespace Renderer
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 
 		//TODO: just store program id?
 		// Shaders
@@ -33,6 +34,7 @@ namespace Renderer
 
 
 		MainLightCol = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		MainLightPos = glm::vec3(1500, 1500, 1500);
 	}
 
 	void Renderer::Clear() const

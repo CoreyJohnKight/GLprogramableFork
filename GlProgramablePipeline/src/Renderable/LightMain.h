@@ -12,8 +12,9 @@ namespace Renderable
 		~LightMain() override;
 
 		void OnRender() override;
-	private:
+		void OnUpdate() override;
 		std::unique_ptr<glm::vec3>				m_Pos;
+	private:
 		std::unique_ptr<Renderer::VertexArray>	m_Vao;
 		std::unique_ptr<Renderer::VertexBuffer>	m_Vbo;
 		std::unique_ptr<Renderer::IndexBuffer>	m_Ibo;

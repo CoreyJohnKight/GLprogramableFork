@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Input.h"
 #include <iostream>
-
+#include "Application.h"
 namespace Player
 {
 	Player::Player()
@@ -40,11 +40,14 @@ namespace Player
 			m_Position += right * speed;
 		}
 
-		// Update rotation based on mouse offset
-		m_Rotation.y += Application::xOffset;
-		m_Rotation.x += Application::yOffset;
-		Application::xOffset = 0;
-		Application::yOffset = 0;
+		if (Application::cursorLock)
+		{
+			// Update rotation based on mouse offset
+			m_Rotation.y += Application::xOffset;
+			m_Rotation.x += Application::yOffset;
+			Application::xOffset = 0;
+			Application::yOffset = 0;
+		}
 
 		// Clamp rotation to desired range if necessary
 		// For example, if you want to keep the rotation within -180 to 180 degrees range:

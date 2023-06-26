@@ -2,6 +2,7 @@
 
 #include "GLFW/glfw3.h"
 
+#define KEY_ESCAPE GLFW_KEY_ESCAPE
 #define KEY_FORWARD 'W'
 #define KEY_BACK	'S'
 #define KEY_LEFT	'A'
@@ -21,6 +22,7 @@ namespace Application
 
 	struct KeyState
 	{
+		KeystateEnum escape;
 		KeystateEnum forward;
 		KeystateEnum back;
 		KeystateEnum left;
@@ -32,6 +34,7 @@ namespace Application
 
 	inline KeyState keys =
 	{
+		.escape = UP,
 		.forward = UP,
 		.back = UP,
 		.left = UP,

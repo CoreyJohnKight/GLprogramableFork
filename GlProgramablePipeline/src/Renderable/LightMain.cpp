@@ -97,4 +97,10 @@ namespace Renderable
         Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
 
+    void LightMain::OnUpdate()
+    {
+        //Application::renderer.MainLightPos = *m_Pos;
+        *m_Pos = Application::renderer.MainLightPos;
+    }
+
 }
