@@ -39,6 +39,14 @@ namespace Player
 		{
 			m_Position += right * speed;
 		}
+		if (Application::keys.up == Application::KeystateEnum::DOWN)
+		{
+			m_Position.y += speed;
+		}
+		if (Application::keys.down == Application::KeystateEnum::DOWN)
+		{
+			m_Position.y -= speed;
+		}
 
 		if (Application::cursorLock)
 		{

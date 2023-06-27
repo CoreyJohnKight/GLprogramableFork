@@ -30,6 +30,12 @@ namespace Application
             case KEY_RIGHT:
                 keys.right = DOWN;
                 break;
+            case KEY_UP:
+                keys.up = DOWN;
+                break;
+            case KEY_DOWN:
+                keys.down = DOWN;
+                break;
             }
             break;
         case GLFW_RELEASE:
@@ -46,6 +52,12 @@ namespace Application
                 break;
             case KEY_RIGHT:
                 keys.right = UP;
+                break;
+            case KEY_UP:
+                keys.up = UP;
+                break;
+            case KEY_DOWN:
+                keys.down = UP;
                 break;
             }
             break;
