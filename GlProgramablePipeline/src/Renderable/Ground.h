@@ -16,7 +16,6 @@ namespace Renderable
 
 		void OnUpdate() override;
 		void OnRender() override;
-		void OnImGuiRender() override;
 	private:
 		std::unique_ptr<glm::vec3>				m_Pos;
 		std::unique_ptr<Renderer::VertexArray>	m_Vao;

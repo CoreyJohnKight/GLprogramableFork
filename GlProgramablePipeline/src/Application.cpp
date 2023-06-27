@@ -47,6 +47,7 @@ std::unique_ptr<Terrain::ChunkManager> chunker = std::make_unique<Terrain::Chunk
 
 static GLFWwindow* window;
 inline bool Application::cursorLock = true;
+inline glm::vec3 Application::cameraPosition;
 
 int main(void)
 {
@@ -132,9 +133,9 @@ int main(void)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        Application::ImGuiRender();
         Application::Render();
         
+        Application::ImGuiRender();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -173,10 +174,10 @@ void Application::Init()
     chunker->m_ChunkTree->Init();
     Application::projection = glm::perspective(glm::radians(60.0f), 1280.0f / 960.0f, 1.0f, -1.0f);
     
-    glm::vec3 cameraPosition(0.0f, 0.0f, 500.0f);
+    Application::cameraPosition = glm::vec3(0.0f, 0.0f, 500.0f);
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
     glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
-    Application::view = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
+    Application::view = glm::lookAt(Application::cameraPosition, cameraTarget, cameraUp);
 
     Application::model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
@@ -203,6 +204,7 @@ void Application::ImGuiRender()
     ImGui::Begin("Debug");
     ImGui::SliderFloat3("LightPos", &(renderer.MainLightPos[0]), -10000.0f, 10000.0f);
     ImGui::End();
+
     for (const auto& e : renderables)
     {
         e->OnImGuiRender();
@@ -221,8 +223,9 @@ void Application::Think()
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         keys.escape = UP;
     }
+
     player->OnUpdate();
-    glm::vec3 cameraPosition = player->GetPos();
+    Application::cameraPosition = player->GetPos();
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
     glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
 
@@ -237,10 +240,10 @@ void Application::Think()
     );
     cameraDirection = glm::normalize(cameraDirection);
 
-    cameraTarget = cameraPosition + cameraDirection;
+    cameraTarget = Application::cameraPosition + cameraDirection;
 
     // Update view matrix based on camera position and target
-    Application::view = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
+    Application::view = glm::lookAt(Application::cameraPosition, cameraTarget, cameraUp);
 
     for (const auto& e : renderables)
     {

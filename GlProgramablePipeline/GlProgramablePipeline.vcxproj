@@ -624,7 +624,6 @@
     <ClInclude Include="src\Vender\ImGui\imstb_rectpack.h" />
     <ClInclude Include="src\Vender\ImGui\imstb_textedit.h" />
     <ClInclude Include="src\Vender\ImGui\imstb_truetype.h" />
-    <ClInclude Include="src\Vender\PerlinNoise.hpp" />
     <ClInclude Include="src\Vender\Stb_Image\stbImage.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBuffer.h" />

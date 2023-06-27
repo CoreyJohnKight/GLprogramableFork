@@ -1,12 +1,15 @@
 #include "Chunk.h"
 #include "Application.h"
 #include <ImGui/imgui.h>
+#include <iostream>
+
 namespace Terrain
 {
 	Chunk::Chunk(std::weak_ptr<Renderer::Shader> shader, int x, int y)
 		: m_Prog(shader.lock()), m_X(x), m_Y(y)
 	{
 		m_ChunkData = nullptr;
+		std::cout << "Chunk created at: " << x << ", " << y << std::endl;
 	}
 
 
@@ -94,6 +97,7 @@ namespace Terrain
 		m_Prog->SetUniformMat4f("u_Model", glm::translate(glm::mat4(1.0f), *m_Pos));
 		m_Prog->SetUniform4fv("u_LightCol", Application::renderer.MainLightCol);
 		m_Prog->SetUniform3fv("u_LightPos", Application::renderer.MainLightPos);
+		m_Prog->SetUniform3fv("u_CamPos", Application::cameraPosition);
 
 
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);

@@ -15,6 +15,9 @@ namespace Terrain
 	private:
 		int m_HeadX;
 		int m_HeadY;
-		std::unique_ptr<Chunk> m_Head;
+		std::vector<std::vector<std::shared_ptr<Chunk>>> m_Chunks;
+		std::shared_ptr<Chunk> m_Head;
+	protected:
+		static int maxNodeDist;
 	};
 }

@@ -96,8 +96,4 @@ namespace Renderable
 		Application::renderer.Draw(*m_Vao, *m_Ibo, *m_Prog);
 	}
 
-	void Ground::OnImGuiRender()
-	{
-	}
-
 }

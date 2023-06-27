@@ -8,6 +8,7 @@ namespace Application
 {
 	extern Renderer::Renderer renderer;
 	extern bool cursorLock;
+	extern glm::vec3 cameraPosition;
 	static std::vector <std::unique_ptr<Renderer::Renderable>> renderables;
 	static glm::mat4 projection;
 	static glm::mat4 view;

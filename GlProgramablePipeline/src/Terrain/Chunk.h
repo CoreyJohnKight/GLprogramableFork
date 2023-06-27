@@ -14,6 +14,10 @@ namespace Terrain
 		void SetData(std::unique_ptr<std::vector<std::vector<int>>> chunkData);
 		std::unique_ptr<std::vector<std::vector<int>>> m_ChunkData;
 		void OnRender() override;
+		std::shared_ptr<Chunk> nextNode_Up;
+		std::shared_ptr<Chunk> nextNode_Down;
+		std::shared_ptr<Chunk> nextNode_Left;
+		std::shared_ptr<Chunk> nextNode_Right;
 
 	private:
 		std::unique_ptr<glm::vec3>				m_Pos;

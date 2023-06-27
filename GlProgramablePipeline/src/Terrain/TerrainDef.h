@@ -1,3 +1,3 @@
 #pragma once
 
-#define CHUNK_SIZE 32
+#define CHUNK_SIZE 64

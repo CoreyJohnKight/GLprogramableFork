@@ -1474,9 +1474,6 @@
     <ClInclude Include="src\Renderable\LightMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vender\PerlinNoise.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Textures\Leroy.png">
