@@ -8,6 +8,7 @@ namespace Terrain
 	Chunk::Chunk(std::weak_ptr<Renderer::Shader> shader, int x, int y)
 		: m_Prog(shader.lock()), m_X(x), m_Y(y)
 	{
+		isLoaded = false;
 		m_ChunkData = nullptr;
 		std::cout << "Chunk created at: " << x << ", " << y << std::endl;
 	}
@@ -76,7 +77,7 @@ namespace Terrain
 
 		m_Prog->Bind();
 
-		m_Pos = std::make_unique<glm::vec3>(0, -100, 0);
+		m_Pos = std::make_unique<glm::vec3>(m_X * step * CHUNK_SIZE, -100, m_Y * step * CHUNK_SIZE);
 		m_Vao = std::make_unique<Renderer::VertexArray>();
 		m_Vbo = std::make_unique<Renderer::VertexBuffer>(verticies.data(), verticies.size() * sizeof(GLfloat));
 		m_Ibo = std::make_unique<Renderer::IndexBuffer>(indices.data(), indices.size());
@@ -88,6 +89,7 @@ namespace Terrain
 
 		m_Prog->SetUniform4f("u_Colour", 0.2f, 0.8f, 0.2f, 1.0f);
 
+		isLoaded = true;
 	}
 
 	void Chunk::OnRender()

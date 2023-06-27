@@ -7,6 +7,7 @@
 namespace Terrain
 {
 	int ChunkTree::maxNodeDist = 3;
+	int ChunkTree::maxViewDist = 3;
 
 	ChunkTree::ChunkTree(int x, int y)
 		:m_HeadX(x), m_HeadY(y)
@@ -28,7 +29,10 @@ namespace Terrain
 				if (y == maxNodeDist / 2 && x == maxNodeDist / 2)
 				{
 					std::cout << "Assigning head at: " << x << ", " << y << std::endl;
-					m_Head = m_Chunks[y][x];
+					m_RealHead = m_Chunks[y][x];
+					m_CurrentHead = m_Chunks[y][x];
+					m_HeadX = x;
+					m_HeadY = y;
 				}
 			}
 		}
@@ -52,10 +56,12 @@ namespace Terrain
 
 		////TODO: TEMP
 		//m_Head->SetData(LoadTerrainFile(m_HeadX, m_HeadY));
-		m_Head->m_ChunkData = nullptr;
-		
-		if (m_Head->m_ChunkData == nullptr)
-			m_Head->SetData(GenerateTerrain(m_HeadX, m_HeadY));
+		//m_RealHead->m_ChunkData = nullptr;
+		//
+		//if (m_RealHead->m_ChunkData == nullptr)
+		//	m_RealHead->SetData(GenerateTerrain(m_HeadX, m_HeadY));
+
+		WalkLoad(m_HeadX, m_HeadY, maxViewDist);
 		
 	}
 
@@ -66,6 +72,75 @@ namespace Terrain
 	}
 	void ChunkTree::Render()
 	{
-		m_Head->OnRender();
+		WalkRender(m_HeadX, m_HeadY, maxViewDist);
+		//m_RealHead->OnRender();
+	}
+	void ChunkTree::WalkLoad(int x, int y, int stepsRemaining)
+	{
+		// Steps check
+		if (stepsRemaining == 0)
+			return;
+		// Bounds check
+		if (x < 0 || x > maxNodeDist)
+			return;
+		if (y < 0 || y > maxNodeDist)
+			return;
+
+		std::shared_ptr<Chunk> current = m_Chunks[y][x];
+		if (current == nullptr)
+		{
+			std::cout << "Null chunk found at: " << x << ", " << y << "!" << std::endl;
+			assert(false);
+		}
+
+		//TODO: temp
+		//current->SetData(LoadTerrainFile(x, y));
+
+		if (current->isLoaded == false)
+		{
+			current->SetData(GenerateTerrain(x, y));
+			std::cout << "Loaded chunk: " << x << ", " << y << "!" << std::endl;
+		}
+	
+		WalkLoad(x + 1, y + 1, stepsRemaining - 1);
+		WalkLoad(x + 1, y, stepsRemaining - 1);
+		WalkLoad(x - 1, y, stepsRemaining - 1);
+		WalkLoad(x - 1, y - 1, stepsRemaining - 1);
+	}
+	void ChunkTree::WalkRender(int x, int y, int stepsRemaining)
+	{
+		// Steps check
+		if (stepsRemaining == 0)
+			return;
+		// Bounds check
+		if (x < 0 || x > maxNodeDist)
+			return;
+		if (y < 0 || y > maxNodeDist)
+			return;
+
+		std::shared_ptr<Chunk> current = m_Chunks[y][x];
+		if (current == nullptr)
+		{
+			std::cout << "Null chunk found at: " << x << ", " << y << "!" << std::endl;
+			assert(false);
+		}
+
+		//TODO: temp
+		//current->SetData(LoadTerrainFile(x, y));
+
+		if (current->isLoaded == false)
+		{
+			std::cout << "Null chunk data found at: " << x << ", " << y << "!" << std::endl;
+			assert(false);
+		}
+		else
+		{
+			current->OnRender();
+		}
+
+		WalkRender(x + 1, y + 1, stepsRemaining - 1);
+		WalkRender(x + 1, y, stepsRemaining - 1);
+		WalkRender(x - 1, y, stepsRemaining - 1);
+		WalkRender(x - 1, y - 1, stepsRemaining - 1);
 	}
 }

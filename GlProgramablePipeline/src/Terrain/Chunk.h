@@ -18,6 +18,7 @@ namespace Terrain
 		std::shared_ptr<Chunk> nextNode_Down;
 		std::shared_ptr<Chunk> nextNode_Left;
 		std::shared_ptr<Chunk> nextNode_Right;
+		bool isLoaded;
 
 	private:
 		std::unique_ptr<glm::vec3>				m_Pos;
